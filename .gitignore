@@ -1,0 +1,8 @@
+node_modules/
+.DS_Store
+*.log
+dist/
+.env
+.idea/
+pdf-pages/
+prompt1-p1.png

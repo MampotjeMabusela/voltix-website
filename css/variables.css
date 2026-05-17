@@ -1,0 +1,58 @@
+:root {
+  --color-black: #0f0f0f;
+  --color-dark-bg: #1a1a1a;
+  --color-dark-gray: #333333;
+  --color-medium-gray: #a0a0a0;
+  --color-light-gray: #e8e8e8;
+  --color-white: #ffffff;
+  --color-gold: #d4af37;
+  --color-accent-gold: #ffc107;
+  --color-dark-blue: #1a1a2e;
+
+  --spacing-xs: 8px;
+  --spacing-sm: 16px;
+  --spacing-md: 24px;
+  --spacing-lg: 40px;
+  --spacing-xl: 64px;
+  --spacing-2xl: 96px;
+
+  --font-display: "Sora", "Poppins", sans-serif;
+  --font-body: "Inter", sans-serif;
+
+  --font-size-h1: 72px;
+  --font-size-h2: 56px;
+  --font-size-h3: 42px;
+  --font-size-h4: 32px;
+  --font-size-h5: 28px;
+  --font-size-body: 16px;
+  --font-size-small: 14px;
+  --font-size-tiny: 12px;
+
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5);
+  --shadow-gold: 0 0 24px rgba(212, 175, 55, 0.3);
+  --shadow-gold-glow: 0 0 40px rgba(212, 175, 55, 0.4);
+
+  --nav-height: 96px;
+  --container-max: 100%;
+  --site-gutter: clamp(20px, 4vw, 64px);
+  --radius-md: 12px;
+  --radius-lg: 16px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --font-size-h1: 48px;
+    --font-size-h2: 36px;
+    --font-size-h3: 28px;
+    --font-size-h4: 24px;
+    --nav-height: 80px;
+    --spacing-2xl: 64px;
+    --spacing-xl: 40px;
+  }
+}
