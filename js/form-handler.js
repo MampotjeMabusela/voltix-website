@@ -1,9 +1,15 @@
 const INQUIRY_EMAIL = "voltrixelectrical@protonmail.com";
-const FORM_ENDPOINT = `https://formsubmit.co/ajax/${encodeURIComponent(INQUIRY_EMAIL)}`;
+const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
 
 const contactForm = document.getElementById("contactForm");
+let cachedWeb3FormsKey = null;
 
 if (contactForm) {
+  if (new URLSearchParams(window.location.search).get("inquiry") === "sent") {
+    showSuccessMessage();
+    window.history.replaceState({}, "", window.location.pathname);
+  }
+
   contactForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
@@ -16,34 +22,16 @@ if (contactForm) {
       submitBtn.textContent = "Sending…";
       hideFormError();
 
-      const formData = new FormData(contactForm);
-      const interests = formData.getAll("interest");
-      formData.delete("interest");
-      formData.append("Primary interests", interests.join(", ") || "Not specified");
-      formData.append("_subject", "New Voltix Website Inquiry");
-      formData.append("_template", "table");
-      formData.append("_captcha", "false");
-
-      const response = await fetch(FORM_ENDPOINT, {
-        method: "POST",
-        headers: { Accept: "application/json" },
-        body: formData,
-      });
-
-      const result = await response.json().catch(() => ({}));
-
-      if (!response.ok) {
-        throw new Error(result.message || "Unable to send inquiry");
-      }
+      const payload = buildPayload(new FormData(contactForm));
+      await submitInquiry(payload);
 
       showSuccessMessage();
       contactForm.reset();
     } catch (err) {
       console.error("Form submission error:", err);
       showFormError(
-        "We could not send your inquiry. Please email us at " +
-          INQUIRY_EMAIL +
-          " or contact us on WhatsApp."
+        err.message ||
+          `We could not send your inquiry. Please email us at ${INQUIRY_EMAIL} or contact us on WhatsApp.`
       );
     } finally {
       if (submitBtn) {
@@ -54,8 +42,100 @@ if (contactForm) {
   });
 }
 
+function buildPayload(formData) {
+  const interests = formData.getAll("interest");
+  return {
+    name: formData.get("name")?.toString().trim() || "",
+    email: formData.get("email")?.toString().trim() || "",
+    phone: formData.get("phone")?.toString().trim() || "",
+    propertyType: formData.get("propertyType")?.toString() || "",
+    message: formData.get("message")?.toString().trim() || "",
+    interests,
+    subscribe: formData.get("subscribe") === "on",
+  };
+}
+
+async function submitInquiry(payload) {
+  const web3formsKey = await resolveWeb3FormsKey();
+  if (web3formsKey) {
+    await submitViaWeb3Forms(web3formsKey, payload);
+    return;
+  }
+
+  const apiResponse = await fetch("/api/inquiry", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  const apiResult = await apiResponse.json().catch(() => ({}));
+
+  if (apiResponse.ok && apiResult.success) {
+    return;
+  }
+
+  throw new Error(
+    apiResult.message ||
+      "Inquiry delivery is not configured. Add WEB3FORMS_ACCESS_KEY in Vercel (recommended) or RESEND_API_KEY."
+  );
+}
+
+async function resolveWeb3FormsKey() {
+  const localKey = window.VOLTIX_CONFIG?.web3formsAccessKey?.trim();
+  if (localKey) return localKey;
+
+  if (cachedWeb3FormsKey !== null) return cachedWeb3FormsKey;
+
+  try {
+    const response = await fetch("/api/config", { cache: "no-store" });
+    if (!response.ok) {
+      cachedWeb3FormsKey = "";
+      return "";
+    }
+    const config = await response.json();
+    cachedWeb3FormsKey = config.web3formsAccessKey?.trim() || "";
+    return cachedWeb3FormsKey;
+  } catch {
+    cachedWeb3FormsKey = "";
+    return "";
+  }
+}
+
+async function submitViaWeb3Forms(accessKey, payload) {
+  const interestList = payload.interests?.length ? payload.interests.join(", ") : "Not specified";
+
+  const response = await fetch(WEB3FORMS_ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({
+      access_key: accessKey,
+      subject: "New Voltix Website Inquiry",
+      from_name: payload.name,
+      name: payload.name,
+      email: payload.email,
+      phone: payload.phone,
+      property_type: payload.propertyType,
+      primary_interests: interestList,
+      marketing_updates: payload.subscribe ? "Yes" : "No",
+      message: [
+        `Property type: ${payload.propertyType || "Not specified"}`,
+        `Primary interests: ${interestList}`,
+        `Marketing updates: ${payload.subscribe ? "Yes" : "No"}`,
+        "",
+        payload.message || "No additional message.",
+      ].join("\n"),
+    }),
+  });
+
+  const result = await response.json().catch(() => ({}));
+
+  if (!response.ok || result.success === false) {
+    throw new Error(result.message || "Unable to send inquiry via Web3Forms.");
+  }
+}
+
 function validateForm() {
   let isValid = true;
+  hideFormError();
 
   const name = document.getElementById("name");
   if (!name?.value.trim()) {
