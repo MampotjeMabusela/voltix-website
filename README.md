@@ -19,7 +19,7 @@ npx serve .
 
 ## Customize
 
-- Update phone, email, and WhatsApp links (`27821234567` placeholder)
+- Contact email: `voltrixelectrical@protonmail.com` (contact form uses [FormSubmit](https://formsubmit.co) — activate the address on first test submission)
 - Proposal PDF: place source file at `assets/Voltix-Estate-Proposal-Source.pdf`, then run `python scripts/build_proposal_pdf.py` to regenerate `assets/Voltix-Proposal.pdf` (includes contact page)
 - Swap Unsplash image URLs for your own WebP assets in `assets/images/`
 

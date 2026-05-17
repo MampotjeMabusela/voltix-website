@@ -15,7 +15,7 @@ OUTPUT = ROOT / "assets" / "Voltix-Proposal.pdf"
 
 CONTACT_LINES = [
     ("Phone / WhatsApp", "+27 60 595 6583"),
-    ("Email", "info@voltixelectrical.co.za"),
+    ("Email", "voltrixelectrical@protonmail.com"),
     ("Location", "Johannesburg, Gauteng, South Africa"),
     ("Office Hours", "Monday – Friday, 08:00 – 17:00"),
     ("Registration", "Reg. No. 2026/382209"),
@@ -66,7 +66,7 @@ def make_contact_page() -> BytesIO:
     y -= 8
     pdf.setFillColor(gold)
     pdf.setFont("Helvetica", 10)
-    pdf.drawCentredString(width / 2, y, "info@voltixelectrical.co.za  |  +27 60 595 6583")
+    pdf.drawCentredString(width / 2, y, "voltrixelectrical@protonmail.com  |  +27 60 595 6583")
 
     pdf.setStrokeColor(gold)
     pdf.setLineWidth(0.8)

@@ -125,6 +125,15 @@ input[type="checkbox"] {
   color: #4caf50;
 }
 
+.error-message.form-submit-error {
+  text-align: center;
+  margin-top: var(--spacing-md);
+  padding: 14px;
+  border-radius: 8px;
+  background: rgba(255, 107, 107, 0.08);
+  border: 1px solid rgba(255, 107, 107, 0.35);
+}
+
 @media (max-width: 600px) {
   .form-row {
     grid-template-columns: 1fr;
