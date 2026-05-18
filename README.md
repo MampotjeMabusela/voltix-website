@@ -19,8 +19,8 @@ npx serve .
 
 ## Customize
 
-- Contact email: `voltrixelectrical@protonmail.com`
-- Contact form: [Web3Forms](https://web3forms.com) (recommended) — create a free access key for `voltrixelectrical@protonmail.com`, then in Vercel add environment variable `WEB3FORMS_ACCESS_KEY` and redeploy. Optional fallback: `RESEND_API_KEY` from [Resend](https://resend.com) for `/api/inquiry`.
+- Contact email: `voltixelectrical_ptyltd@outlook.com`
+- Contact form: [Web3Forms](https://web3forms.com) (recommended) — create a free access key for `voltixelectrical_ptyltd@outlook.com`, then in Vercel add environment variable `WEB3FORMS_ACCESS_KEY` and redeploy. Optional fallback: `RESEND_API_KEY` from [Resend](https://resend.com) for `/api/inquiry`.
 - Proposal PDF: place source file at `assets/Voltix-Estate-Proposal-Source.pdf`, then run `python scripts/build_proposal_pdf.py` to regenerate `assets/Voltix-Proposal.pdf` (includes contact page)
 - Swap Unsplash image URLs for your own WebP assets in `assets/images/`
 

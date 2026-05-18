@@ -1,4 +1,4 @@
-const INQUIRY_EMAIL = "voltrixelectrical@protonmail.com";
+const INQUIRY_EMAIL = "voltixelectrical_ptyltd@outlook.com";
 
 function escapeHtml(value) {
   return String(value ?? "")

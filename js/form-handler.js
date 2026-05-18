@@ -1,4 +1,4 @@
-const INQUIRY_EMAIL = "voltrixelectrical@protonmail.com";
+const INQUIRY_EMAIL = "voltixelectrical_ptyltd@outlook.com";
 const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
 
 const contactForm = document.getElementById("contactForm");
