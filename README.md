@@ -2,6 +2,8 @@
 
 Premium dark-themed marketing site for Voltix Electrical — energy infrastructure for estates, developers, and commercial clients.
 
+**Production:** [https://voltixelectrical.business](https://voltixelectrical.business)
+
 ## Pages
 
 - `index.html` — Home (hero, solutions, solar, BOT model, CTA)
